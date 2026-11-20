@@ -1,0 +1,7 @@
+# /etc/exports - Sistema de Archivos en Red (NFS v4) Expreso Brasilia S.A.
+# Directorio compartido para terminales de despacho y estaciones de talleres Linux
+# Permisos: Lectura/Escritura, sincronización estricta y sin degradación de root para mantenimiento
+/srv/nfs/brasilia 192.168.40.0/24(rw,sync,no_subtree_check,no_root_squash)
+/srv/nfs/brasilia 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+/srv/nfs/brasilia/manuales_flota 192.168.40.0/24(ro,sync,no_subtree_check)
+/srv/nfs/brasilia/telemetria_buses 192.168.40.0/24(rw,sync,no_subtree_check)

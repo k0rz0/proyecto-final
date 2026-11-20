@@ -1,0 +1,46 @@
+graph TD
+    subgraph Red_Corporativa ["Red Local Corporativa - Expreso Brasilia S.A. (192.168.40.0/24)"]
+        direction TB
+        
+        subgraph Clientes ["Estaciones y Dispositivos Clientes"]
+            C_LINUX["Terminales de Despacho (Linux)<br/>Taquillas, Talleres y Puntos de Control"]
+            C_WIN["Estaciones Administrativas (Windows / Mac)<br/>Contabilidad, RRHH, Logística y Gerencia"]
+            C_PRINTER["Impresoras de Red<br/>Tiquetes de Pasaje, Guías y Manifiestos"]
+            C_WEB["Navegadores Clientes e Intranet<br/>Acceso a Servicios Web"]
+        end
+
+        subgraph Servidor_Infra ["Servidor Central de Infraestructura (Ubuntu Server - 192.168.40.100)"]
+            direction TB
+            
+            subgraph Servicios_Nativos ["Servicios Tradicionales de Infraestructura (Linux Nativo)"]
+                NTP["Servicio NTP (Chrony / NTPd)<br/>UDP 123 | Sincronización Horaria de Precisión"]
+                NFS["Servidor NFS v4<br/>TCP 2049 | Repositorio de Archivos para Linux"]
+                NIS["Servidor NIS (ypserv)<br/>TCP/UDP 111, RPC | Autenticación Unificada"]
+                CUPS["Servidor de Impresión CUPS<br/>TCP 631 (IPP) | Colas de Impresión Centralizadas"]
+                SAMBA["Servidor de Archivos Samba<br/>TCP 445 (SMB) | Compartición para Windows y Mac"]
+            end
+            
+            subgraph Dokploy_PaaS ["Plataforma PaaS Dokploy (Docker Swarm / Red Overlay)"]
+                TRAEFIK["Traefik Reverse Proxy<br/>TCP 80/443 | Enrutamiento Dinámico y SSL/TLS"]
+                DOKPLOY_UI["Dokploy Control Panel<br/>TCP 3000 | Gestión de Contenedores y CI/CD"]
+                WEB_APP["Portal Web Institucional<br/>Node.js / Express | Venta y Consulta de Rutas"]
+                DB_SRV["Base de Datos Transaccional<br/>MySQL 8.0 / PostgreSQL | Itinerarios y Pasajeros"]
+            end
+        end
+    end
+
+    %% Conexiones Clientes hacia Dokploy PaaS
+    C_WEB -->|HTTPS :443| TRAEFIK
+    TRAEFIK -->|Enrutamiento Interno| WEB_APP
+    TRAEFIK -->|Administración Web| DOKPLOY_UI
+    WEB_APP -->|Conexión Segura Red Interna Swarm| DB_SRV
+
+    %% Conexiones Clientes hacia Servicios Nativos Linux
+    C_LINUX -->|Sincronización de Reloj UDP :123| NTP
+    C_WIN -->|Sincronización de Reloj UDP :123| NTP
+    C_LINUX -->|Montaje de Directorios TCP :2049| NFS
+    C_LINUX -->|Validación de Usuarios TCP/UDP :111| NIS
+    C_WIN -->|Compartición de Archivos TCP :445| SAMBA
+    C_LINUX -->|Spool de Impresión TCP :631| CUPS
+    C_WIN -->|Spool de Impresión TCP :631| CUPS
+    CUPS -->|Envío de Cola de Impresión| C_PRINTER

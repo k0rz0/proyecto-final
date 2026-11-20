@@ -1,0 +1,15 @@
+{
+  "name": "expreso-brasilia-portal",
+  "version": "1.0.0",
+  "description": "Portal institucional y API de despacho y pasajes para Expreso Brasilia S.A.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7",
+    "dotenv": "^16.4.5"
+  }
+}

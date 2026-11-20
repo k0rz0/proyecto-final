@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  portal-web:
+    image: node:20-alpine
+    container_name: brasilia-portal-web
+    working_dir: /app
+    volumes:
+      - ./webapp:/app
+    command: sh -c "npm install && node src/index.js"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=db-mysql
+      - DB_USER=brasilia_admin
+      - DB_PASSWORD=Brasilia2026Secure!
+      - DB_NAME=brasilia_pasajes
+    ports:
+      - "3000:3000"
+    networks:
+      - brasilia-net
+    depends_on:
+      - db-mysql
+      - cache-redis
+    restart: always
+
+  db-mysql:
+    image: mysql:8.0
+    container_name: brasilia-db-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: RootBrasilia2026!
+      MYSQL_DATABASE: brasilia_pasajes
+      MYSQL_USER: brasilia_admin
+      MYSQL_PASSWORD: Brasilia2026Secure!
+    volumes:
+      - brasilia-mysql-data:/var/lib/mysql
+    networks:
+      - brasilia-net
+    restart: always
+
+  cache-redis:
+    image: redis:7-alpine
+    container_name: brasilia-cache-redis
+    volumes:
+      - brasilia-redis-data:/data
+    networks:
+      - brasilia-net
+    restart: always
+
+  db-admin:
+    image: phpmyadmin:latest
+    container_name: brasilia-phpmyadmin
+    environment:
+      PMA_HOST: db-mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    networks:
+      - brasilia-net
+    depends_on:
+      - db-mysql
+    restart: always
+
+volumes:
+  brasilia-mysql-data:
+    driver: local
+  brasilia-redis-data:
+    driver: local
+
+networks:
+  brasilia-net:
+    driver: bridge
