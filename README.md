@@ -9,7 +9,6 @@
 **Servidor Implementado:** `MV1` (Ubuntu 24.04.4 LTS — Kernel 6.17.0-23-generic)  
 **Semestre:** 2026-1  
 **Ponderación:** 20% de la nota final  
-**Calificación Objetivo:** 100 / 100 puntos  
 
 ---
 
@@ -83,19 +82,15 @@ proyecto-final/
 
 ---
 
-## 📊 Matriz de Cumplimiento de la Rúbrica (100 / 100 Puntos)
+## ⚙️ Instrucciones de Uso y Verificación
 
-| Criterio Evaluado | Pts | Estado | Evidencias y Referencias |
-|---|:---:|:---:|---|
-| **Análisis y diseño** | 10 | ✅ 10/10 | `analisis.md` con justificación para transporte y `diagrama.mmd`. |
-| **Dokploy funcional** | 10 | ✅ 10/10 | `dokploy_01_dashboard.png`, `dokploy_03_traefik_ssl.png` (HTTPS activo). |
-| **Servicio Web** | 10 | ✅ 10/10 | `dokploy_02_proyecto_app.png` desplegado vía Nixpacks. |
-| **NTP** | 5 | ✅ 5/5 | `linux_02_ntp_sincronizacion.png` con Chrony sincronizado a Colombia. |
-| **NFS** | 10 | ✅ 10/10 | `linux_03_nfs_servidor_export.png` y `linux_04_nfs_cliente_montaje.png`. |
-| **NIS** | 10 | ✅ 10/10 | `linux_05_nis_servidor_ypcat.png` y `linux_06_nis_cliente_login.png`. |
-| **CUPS** | 5 | ✅ 5/5 | `linux_07_cups_panel_web_631.png` y `linux_08_cups_impresion_prueba.png`. |
-| **Samba** | 10 | ✅ 10/10 | `linux_09_samba_configuracion.png` y `linux_10_samba_cliente_windows.png`. |
-| **Base de datos** | 5 | ✅ 5/5 | `dokploy_04_bases_datos.png` con MySQL 8.0 y Redis en Swarm. |
-| **Documentación** | 10 | ✅ 10/10 | `documentacion.md`, `.docx` y `.pdf` completos con 18 capturas. |
-| **Presentación** | 5 | ✅ 5/5 | Módulo VI de la bitácora con guion de sustentación de 15 minutos. |
-| **Total** | **100** | **100/100** | **Proyecto Completo y sin Vacíos** |
+1. **Revisión de la Documentación:**
+   * El diagnóstico empresarial y justificación de servicios se encuentra en [`analisis.md`](./analisis.md).
+   * La bitácora técnica paso a paso con comandos y explicaciones está en [`documentacion.md`](./documentacion.md).
+   * El diagrama de arquitectura de la solución se visualiza en [`diagrama.mmd`](./diagrama.mmd).
+
+2. **Auditoría de Servicios en Vivo:**
+   Para verificar interactivamente el estado y funcionamiento en tiempo real de cada servicio, se incluye el script auditor:
+   ```bash
+   python codigo/consola_demo.py
+   ```
